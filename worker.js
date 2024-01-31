@@ -28,10 +28,10 @@ function startTimer() {
             hr++;
             min = 0;
         }
-        if (sec === 12) {
+        if (min === 12) {
             postMessage({ background: "#ff8000" });
         }
-        if (sec === 15) {
+        if (min === 15) {
             postMessage({ background: "#ff0000" });
         }
 
