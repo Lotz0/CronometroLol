@@ -19,17 +19,39 @@
         </div>
 
         <div class="buttons">
-            <button class="start">Start</button>
-            <button class="stop">Stop</button>
-            <button class="reset">Reset</button>
-
+            <button class="start" onclick="startTimer()">Start</button>
+            <button class="stop" onclick="stopTimer()">Stop</button>
+            <button class="reset" onclick="resetTimer()">Reset</button>
         </div>
     </div>
 
+    <script>
+        let worker = new Worker('worker.js');
+
+        function startTimer() {
+            worker.postMessage('start');
+        }
+
+        function stopTimer() {
+            worker.postMessage('stop');
+        }
+
+        function resetTimer() {
+            worker.postMessage('reset');
+        }
+
+            worker.onmessage = function (event) {
+        const eventData = event.data || {}; // Verificar si event.data existe
+        if (eventData.background) {
+            document.body.style.background = eventData.background;
+        }
+        document.querySelector(".milliseconds").innerHTML = (eventData.milliseconds || 0).toString().padStart(2, '0');
+        document.querySelector(".seconds").innerHTML = (eventData.seconds || 0).toString().padStart(2, '0');
+        document.querySelector(".minute").innerHTML = (eventData.minutes || 0).toString().padStart(2, '0');
+        document.querySelector(".hour").innerHTML = (eventData.hours || 0).toString().padStart(2, '0');
+    };
 
 
-    
-
-    <script src="script.js"></script>
+    </script>
 </body>
 </html>
